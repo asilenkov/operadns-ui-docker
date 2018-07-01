@@ -1,8 +1,8 @@
-FROM fedora
+FROM fedora/apache
 MAINTAINER Artem Silenkov <artem.silenkov@gmail.com>
 
 RUN dnf update -y && \
-    dnf install -y git httpd php php-pgsql php-intl php-json php-pear-Net-Curl php-mbstring php-ldap php-pgsql
+    dnf install -y git php php-pgsql php-intl php-json php-pear-Net-Curl php-mbstring php-ldap php-pgsql
 
 RUN dnf clean all
 
