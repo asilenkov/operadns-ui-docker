@@ -184,12 +184,10 @@ RUN echo @testing http://nl.alpinelinux.org/alpine/edge/testing >> /etc/apk/repo
     libpng-dev \
     icu-dev \
     libpq \
-    libpq \
     libxslt-dev \
     libffi-dev \
     freetype-dev \
     sqlite-dev \
-    postgresql-dev \
     libjpeg-turbo-dev && \
     docker-php-ext-configure gd \
       --with-gd \
@@ -197,8 +195,7 @@ RUN echo @testing http://nl.alpinelinux.org/alpine/edge/testing >> /etc/apk/repo
       --with-png-dir=/usr/include/ \
       --with-jpeg-dir=/usr/include/ && \
     #curl iconv session
-    docker-php-ext-install iconv pdo_pgsql gd exif intl xsl json soap dom zip opcache && \
-    cp /usr/src/php/ext/pdo_pgsql/modules/pdo_pgsql.so /usr/local/lib/php/extensions/no-debug-non-zts-20170718/ \
+    docker-php-ext-install iconv gd exif intl xsl json soap dom zip opcache && \
     pecl install xdebug-2.6.0 && \
     docker-php-source delete && \
     mkdir -p /etc/nginx && \
@@ -213,9 +210,14 @@ RUN echo @testing http://nl.alpinelinux.org/alpine/edge/testing >> /etc/apk/repo
     pip install -U pip && \
     pip install -U certbot && \
     mkdir -p /etc/letsencrypt/webrootauth && \
+
+    apk --no-cache add postgresql-libs postgresql-dev && \
+    docker-php-ext-install pgsql pdo_pgsql && \
+    apk del postgresql-dev && \
+
     apk del gcc musl-dev linux-headers libffi-dev augeas-dev python-dev make autoconf
-#    apk del .sys-deps
-#    ln -s /usr/bin/php7 /usr/bin/php
+
+RUN ls -la /usr/local/lib/php/extensions/no-debug-non-zts-20170718/
 
 ADD conf/supervisord.conf /etc/supervisord.conf
 
