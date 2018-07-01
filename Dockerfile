@@ -1,12 +1,10 @@
-FROM php:5.6-apache
+FROM fedora
 MAINTAINER Artem Silenkov <artem.silenkov@gmail.com>
 
-RUN apt-get update && \
-    apt-get -y install git
+RUN dnf update -y && \
+    dnf install -y git httpd php php-pgsql php-intl php-json php-pear-Net-Curl php-mbstring php-ldap php-pgsql
 
-RUN pecl install pdo_pgsql \
-    && docker-php-ext-enable pdo_pgsql
-
+RUN dnf clean all
 
 RUN git clone https://github.com/operasoftware/dns-ui.git
 
