@@ -184,10 +184,12 @@ RUN echo @testing http://nl.alpinelinux.org/alpine/edge/testing >> /etc/apk/repo
     libpng-dev \
     icu-dev \
     libpq \
+    libpq \
     libxslt-dev \
     libffi-dev \
     freetype-dev \
     sqlite-dev \
+    postgresql-dev \
     libjpeg-turbo-dev && \
     docker-php-ext-configure gd \
       --with-gd \
@@ -195,8 +197,6 @@ RUN echo @testing http://nl.alpinelinux.org/alpine/edge/testing >> /etc/apk/repo
       --with-png-dir=/usr/include/ \
       --with-jpeg-dir=/usr/include/ && \
     #curl iconv session
-    #docker-php-ext-install pdo_mysql pdo_sqlite mysqli mcrypt gd exif intl xsl json soap dom zip opcache && \
-    #docker-php-ext-install iconv pdo_mysql pdo_sqlite mysqli gd exif intl xsl json soap dom zip opcache && \
     docker-php-ext-install iconv pdo_pgsql gd exif intl xsl json soap dom zip opcache && \
     pecl install xdebug-2.6.0 && \
     docker-php-source delete && \
