@@ -6,5 +6,5 @@ RUN dnf update -y && \
 
 RUN dnf clean all
 
-RUN git clone https://github.com/operasoftware/dns-ui.git
+RUN cd /var/www/html ; git clone https://github.com/operasoftware/dns-ui.git
 
