@@ -62,6 +62,7 @@ RUN GPG_KEYS=B0F4253373F8F6F510D42178520A9993A1C052F8 \
     --with-compat \
     --with-file-aio \
     --with-http_v2_module \
+    --add-module=/usr/src/nginx-auth-ldap-master \
     --add-module=/usr/src/ngx_devel_kit-$DEVEL_KIT_MODULE_VERSION \
     --add-module=/usr/src/lua-nginx-module-$LUA_MODULE_VERSION \
   " \
@@ -73,6 +74,8 @@ RUN GPG_KEYS=B0F4253373F8F6F510D42178520A9993A1C052F8 \
     libc-dev \
     make \
     libressl-dev \
+    libldap \
+    openldap-dev \
     pcre-dev \
     zlib-dev \
     linux-headers \
@@ -87,6 +90,7 @@ RUN GPG_KEYS=B0F4253373F8F6F510D42178520A9993A1C052F8 \
   && curl -fSL http://nginx.org/download/nginx-$NGINX_VERSION.tar.gz.asc  -o nginx.tar.gz.asc \
   && curl -fSL https://github.com/simpl/ngx_devel_kit/archive/v$DEVEL_KIT_MODULE_VERSION.tar.gz -o ndk.tar.gz \
   && curl -fSL https://github.com/openresty/lua-nginx-module/archive/v$LUA_MODULE_VERSION.tar.gz -o lua.tar.gz \
+  && curl -fSL https://github.com/kvspb/nginx-auth-ldap/archive/master.tar.gz -o ldap.tar.gz \
   && export GNUPGHOME="$(mktemp -d)" \
   && found=''; \
   for server in \
@@ -105,7 +109,8 @@ RUN GPG_KEYS=B0F4253373F8F6F510D42178520A9993A1C052F8 \
   && tar -zxC /usr/src -f nginx.tar.gz \
   && tar -zxC /usr/src -f ndk.tar.gz \
   && tar -zxC /usr/src -f lua.tar.gz \
-  && rm nginx.tar.gz ndk.tar.gz lua.tar.gz \ 
+  && tar -zxC /usr/src -f ldap.tar.gz \
+  && rm nginx.tar.gz ndk.tar.gz lua.tar.gz ldap.tar.gz \ 
   && cd /usr/src/nginx-$NGINX_VERSION \
   && ./configure $CONFIG --with-debug \
   && make -j$(getconf _NPROCESSORS_ONLN) \
