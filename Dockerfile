@@ -181,6 +181,8 @@ RUN echo @testing http://nl.alpinelinux.org/alpine/edge/testing >> /etc/apk/repo
     musl-dev \
     linux-headers \
     libmcrypt-dev \
+    libldap \
+    openldap-dev \
     libpng-dev \
     icu-dev \
     libpq \
@@ -195,7 +197,7 @@ RUN echo @testing http://nl.alpinelinux.org/alpine/edge/testing >> /etc/apk/repo
       --with-png-dir=/usr/include/ \
       --with-jpeg-dir=/usr/include/ && \
     #curl iconv session
-    docker-php-ext-install iconv gd exif intl xsl json soap dom zip opcache && \
+    docker-php-ext-install iconv gd exif intl xsl json soap dom zip opcache ldap && \
     pecl install xdebug-2.6.0 && \
     docker-php-source delete && \
     mkdir -p /etc/nginx && \
