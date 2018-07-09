@@ -275,6 +275,10 @@ ADD errors/ /var/www/errors
 
 RUN mkdir -p /home ; cd /home ; git clone https://github.com/operasoftware/dns-ui.git
 
+
+RUN ls -la /usr/local/lib/php/extensions/no-debug-non-zts-20170718/
+
+
 EXPOSE 443 80
 
 WORKDIR ["/"]
